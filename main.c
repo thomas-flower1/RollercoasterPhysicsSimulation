@@ -31,6 +31,11 @@ void update(GameManager *game_manager);
 
 int main() {
     GameManager game_manager;
+    int grid[SCREEN_WIDTH][SCREEN_HEIGHT] = {0}; // initialize an array of 0s for each pixel on the screen;
+
+
+
+
     if (create_window(&game_manager) == 1) {
         return 1;
 
@@ -116,17 +121,42 @@ int create_window(GameManager *game_manager) {
 void handle_events(GameManager *game_manager) {
     SDL_Event event;
     SDL_PollEvent(&event); // get the current event
+
+    int pressed = 1;
+
     switch (event.type)
     {
     case SDL_QUIT:
         game_manager->is_running = -1;
         break;
-        
-        
+    
+    case SDL_MOUSEBUTTONDOWN:
+        pressed = 0;
+        break;
     
     default:
         break;
     }
+
+    // if the button is pressed, print the coord until we release the mouse button
+
+    // make this a separate thread ?
+    while(pressed == 0) {
+
+        // exit condition
+        SDL_PollEvent(&event);
+        if(event.type == SDL_MOUSEBUTTONUP) {
+            pressed = 1;
+        }
+
+        int x, y;
+        SDL_GetMouseState(&x, &y);
+        printf("Mouse button clicked at pos: %d, %d\n", x, y);
+
+        
+    }
+
+  
 
 
 }
@@ -151,10 +181,10 @@ void render(GameManager *game_manager) {
     SDL_SetRenderDrawColor(game_manager->renderer, white.r, white.g, white.b, white.alpha);
     SDL_RenderDrawPoint(game_manager->renderer, 100, 100); // draw a single pixel
 
-
-
-
-
     SDL_RenderPresent(game_manager->renderer); // update the screen 
+}
+
+void update(GameManager *game_manager){
+
 }
 
