@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <SDL2/SDL.h>
+#include <math.h>
 
-#define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 600
+#define SCREEN_WIDTH 800
 #define TITLE "Rollercoaster Physics Simulator"
 
 
@@ -25,16 +26,17 @@ typedef struct Colour{
 
 int create_window(GameManager *game_manager);
 void handle_events(GameManager *game_manager);
-void render(GameManager *game_manager);
+void render(GameManager *game_manager, int grid[][SCREEN_WIDTH]);
 void update(GameManager *game_manager);
+void draw_circle(int grid[][SCREEN_WIDTH]);
 
 
 int main() {
     GameManager game_manager;
-    int grid[SCREEN_WIDTH][SCREEN_HEIGHT] = {0}; // initialize an array of 0s for each pixel on the screen;
+    int grid[SCREEN_HEIGHT][SCREEN_WIDTH] = {0}; // initialize an array of 0s for each pixel on the screen;
 
-
-
+    // draw a circle
+    draw_circle(grid);
 
     if (create_window(&game_manager) == 1) {
         return 1;
@@ -58,22 +60,12 @@ int main() {
 
     while(game_manager.is_running == 0) {
         handle_events(&game_manager);
-        render(&game_manager);
+        render(&game_manager, grid);
 
 
     }
 
 
-
-
-
-
-
-
-
-
-
-    
    
 
     return 0;
@@ -161,7 +153,7 @@ void handle_events(GameManager *game_manager) {
 
 }
 
-void render(GameManager *game_manager) {
+void render(GameManager *game_manager, int grid[][SCREEN_WIDTH]) {
     SDL_SetRenderDrawColor(game_manager->renderer, 0, 0, 0, 255);
     SDL_RenderClear(game_manager->renderer); // fills the screen with this colour
 
@@ -179,12 +171,119 @@ void render(GameManager *game_manager) {
     };
 
     SDL_SetRenderDrawColor(game_manager->renderer, white.r, white.g, white.b, white.alpha);
-    SDL_RenderDrawPoint(game_manager->renderer, 100, 100); // draw a single pixel
+
+    // draw all the pixels from the grid - for now this is just the circle
+    for(int i = 0; i < SCREEN_HEIGHT; i++) {
+        for(int j = 0; j < SCREEN_WIDTH; j++) {
+            if(grid[i][j] == 1) {
+                SDL_RenderDrawPoint(game_manager->renderer, i, j); // draw a single pixel
+            }
+
+
+        }
+    }
+
+
+    
 
     SDL_RenderPresent(game_manager->renderer); // update the screen 
 }
 
 void update(GameManager *game_manager){
+
+}
+
+
+void draw_circle(int grid[][SCREEN_WIDTH]){
+    /*
+    
+    function that assigns 1s to the circls staring at the center. We are using the midpoint circle algorithm
+
+
+    
+    
+    */
+
+    // const int cx = 100;
+    // const int cy = 100;
+    // const int r = 50; 
+
+    // int start_x = 0;
+    // int start_y = -r;
+  
+
+
+    // // need to fix this condition
+    // while (start_x < -start_y) {
+
+    //     int y_mid = start_y + 0.5;
+    //     // use the distance formula to find the distance between the point we are going to add the center of the circle
+
+
+    //     double distance = pow((start_x), 2) + pow((y_mid), 2);
+
+    //     // then we want to check if the distance is greater than the radius
+    //     if(distance > pow(r, 2)){
+    //         start_y++;
+
+    //     }
+
+    //     grid[cx + start_x][cy + start_y] = 1;
+    //     grid[cx - start_x][cy + start_y] = 1;
+    //     grid[cx + start_x][cy - start_y] = 1;
+    //     grid[cx - start_x][cy - start_y] = 1;
+       
+       
+
+
+    //     start_x ++;
+
+       
+
+    //
+
+    int cx = 200;
+    int cy = 200;
+    int r = 100;
+
+    int x = cx;
+    int y = cy - r;
+
+    // using the 45-45-90 triangle
+    int octant_coord = (r / sqrt(2));
+    printf("The octant coord is: %d\n", octant_coord);
+
+
+    int i = 0;
+    while(i < octant_coord) {
+
+
+        // we need to check if the midpoint 
+        int y_mid = y + 0.5;
+
+        // then check if the distance between (x, y_mid) and (cx, cy)
+        int distance = sqrt(pow((x - cx), 2) + pow((y - cy), 2));
+
+        if (distance > r) {
+            y++;
+            printf("okkk\n");
+           
+        }
+
+        grid[x][y] = 1;
+        x++;
+
+
+        i++; // use to increment until we reach the x coord
+
+
+    }
+
+   
+
+
+
+
 
 }
 
