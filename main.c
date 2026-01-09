@@ -23,16 +23,14 @@ typedef struct Colour{
 } Colour;
 
 
-
-
 int create_window(GameManager *game_manager);
 void handle_events(GameManager *game_manager);
-void colour_init(Colour *colour);
+void render(GameManager *game_manager);
+void update(GameManager *game_manager);
 
 
 int main() {
     GameManager game_manager;
-    
     if (create_window(&game_manager) == 1) {
         return 1;
 
@@ -41,15 +39,22 @@ int main() {
     // now we can say that the game is running
     game_manager.is_running = 0;
 
+
+    Colour black = {
+        .r = 0,
+        .g = 0,
+        .b = 0,
+        .alpha = 255,
+
+    };
+    
+
+
+
     while(game_manager.is_running == 0) {
-
         handle_events(&game_manager);
+        render(&game_manager);
 
-        SDL_SetRenderDrawColor(game_manager.renderer, 255, 0, 0, 255);
-
-        SDL_RenderClear(game_manager.renderer);
-
-        SDL_RenderPresent(game_manager.renderer);
 
     }
 
@@ -124,5 +129,32 @@ void handle_events(GameManager *game_manager) {
     }
 
 
-
 }
+
+void render(GameManager *game_manager) {
+    SDL_SetRenderDrawColor(game_manager->renderer, 0, 0, 0, 255);
+    SDL_RenderClear(game_manager->renderer); // fills the screen with this colour
+
+    /* 
+
+    add things to render here
+    
+    */
+
+    Colour white = {
+        .r = 255,
+        .g = 255,
+        .b = 255,
+        .alpha = 255,
+    };
+
+    SDL_SetRenderDrawColor(game_manager->renderer, white.r, white.g, white.b, white.alpha);
+    SDL_RenderDrawPoint(game_manager->renderer, 100, 100); // draw a single pixel
+
+
+
+
+
+    SDL_RenderPresent(game_manager->renderer); // update the screen 
+}
+
