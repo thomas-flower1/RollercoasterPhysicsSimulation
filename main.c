@@ -204,43 +204,7 @@ void draw_circle(int grid[][SCREEN_WIDTH]){
     
     */
 
-    // const int cx = 100;
-    // const int cy = 100;
-    // const int r = 50; 
 
-    // int start_x = 0;
-    // int start_y = -r;
-  
-
-
-    // // need to fix this condition
-    // while (start_x < -start_y) {
-
-    //     int y_mid = start_y + 0.5;
-    //     // use the distance formula to find the distance between the point we are going to add the center of the circle
-
-
-    //     double distance = pow((start_x), 2) + pow((y_mid), 2);
-
-    //     // then we want to check if the distance is greater than the radius
-    //     if(distance > pow(r, 2)){
-    //         start_y++;
-
-    //     }
-
-    //     grid[cx + start_x][cy + start_y] = 1;
-    //     grid[cx - start_x][cy + start_y] = 1;
-    //     grid[cx + start_x][cy - start_y] = 1;
-    //     grid[cx - start_x][cy - start_y] = 1;
-       
-       
-
-
-    //     start_x ++;
-
-       
-
-    //
 
     int cx = 200;
     int cy = 200;
@@ -249,11 +213,12 @@ void draw_circle(int grid[][SCREEN_WIDTH]){
     int x = cx;
     int y = cy - r;
 
+
     // using the 45-45-90 triangle
-    int octant_coord = (r / sqrt(2));
-    printf("The octant coord is: %d\n", octant_coord);
-
-
+    double octant_coord = (r / sqrt(2));
+    printf("The octant coord is: %f\n", octant_coord);
+    
+    
     int i = 0;
     while(i < octant_coord) {
 
@@ -262,15 +227,45 @@ void draw_circle(int grid[][SCREEN_WIDTH]){
         int y_mid = y + 0.5;
 
         // then check if the distance between (x, y_mid) and (cx, cy)
-        int distance = sqrt(pow((x - cx), 2) + pow((y - cy), 2));
+        int distance = sqrt(pow((x - cx), 2) + pow((y_mid - cy), 2));
 
         if (distance > r) {
             y++;
-            printf("okkk\n");
+          
            
         }
 
+        // starting at the top going clockwise
         grid[x][y] = 1;
+
+        // directly opposite
+        grid[2 * cx - x][2 * cy - y] = 1;
+
+        // 90 degrees clockwise
+        grid[cx - (y - cy)][cy + (x - cx)] = 1;
+
+        // 90 degrees counter clockwise
+        grid[cx + (y - cy)][cy - (x - cx)] = 1;
+
+        int x45 = x - cx;
+        int y45 = y - cy;
+
+        grid[y45 + cx][x45 + cy] = 1;
+
+        
+
+
+
+
+    
+
+
+       
+        
+
+
+    
+
         x++;
 
 
