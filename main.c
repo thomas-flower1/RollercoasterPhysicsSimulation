@@ -24,11 +24,18 @@ typedef struct Colour{
 } Colour;
 
 
-typedef struct Rollercoaster {
+typedef struct Coordinate {
     int x;
     int y;
-    int width;
-    int height;
+
+} Coordinate;
+
+
+typedef struct Rollercoaster {
+    Coordinate top_right;
+    Coordinate top_left;
+    Coordinate bottom_right;
+    Coordinate bottom_left;
     int visible;
 
 
@@ -69,10 +76,10 @@ int main() {
 
     // initialize the rollercoaster
     Rollercoaster rc = {
-        .x = 100,
-        .y = 100,
-        .width = 20,
-        .height = 10,
+        .top_left = {10, 10},
+        .top_right = {20, 10},
+        .bottom_left = {10, 20},
+        .bottom_right = {20, 20},
         .visible = 0
     };
     
@@ -205,7 +212,12 @@ void render(GameManager *game_manager, Rollercoaster *rc, int grid[][SCREEN_WIDT
 
 void update(GameManager *game_manager, Rollercoaster *rc){
     if(rc->visible) {
-        rc->x -= 1;
+       // move the rollercoaster
+       rc->bottom_left.x ++;
+       rc->bottom_right.x ++;
+       rc->top_left.x ++;
+       rc->top_right.x ++;
+      
     }
     
 
@@ -218,7 +230,6 @@ void draw_circle(int cx, int cy, int r, int grid[][SCREEN_WIDTH], int arc){
     function that assigns 1s to the circls staring at the center. We are using the midpoint circle algorithm
     
     */
-
 
     int x = 0;
     int y = -r;
@@ -244,34 +255,30 @@ void draw_circle(int cx, int cy, int r, int grid[][SCREEN_WIDTH], int arc){
 
         }
 
-        // grid[cx + x][cy + y] = 1;
-        // grid[cx - x][cy + y] = 1;
-        // grid[cx + x][cy - y] = 1;
-        // grid[cx - x][cy - y] = 1;
-        // grid[cx + y][cy + x] = 1;
-        // grid[cx - y][cy + x] = 1;
-        // grid[cx + y][cy - x] = 1;
-        // grid[cx - y][cy - x] = 1;
-        
+       
         x++;
 
     }
-   
-    // also need to modify so that it can draw an arc when requested
-
-
-
 
 }
 
 void draw_rollercoaster(Rollercoaster *rc, GameManager *game_manager) {
-    for(int i = rc->y; i < rc->y + rc->height; i++) {
-        for(int j = rc->x; j < rc->x + rc->width; j++) {
+    // fix for the new implementation 
+    for(int i = rc->top_left.y; i < rc->bottom_left.y; i++) {
+        for(int j = rc->top_left.x; j < rc->top_right.x; j++) {
             SDL_RenderDrawPoint(game_manager->renderer, j, i); // draw a single pixel
 
 
         }
     }
 
+
+   
+
+}
+
+void draw_rollercoaster_rotation(Rollercoaster *rc, GameManager *game_manager) {
+
+    // always move all 4 corners
 
 }
