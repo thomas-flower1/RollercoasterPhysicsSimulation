@@ -1,62 +1,9 @@
-#include <stdio.h>
-#include <SDL2/SDL.h>
-#include <math.h>
-
-#define SCREEN_HEIGHT 600
-#define SCREEN_WIDTH 800
-#define TITLE "Rollercoaster Physics Simulator"
-
-
-typedef struct GameManager{
-    SDL_Window *window; // a window pointer
-    SDL_Renderer *renderer;
-    int is_running;
-
-
-} GameManager;
-
-typedef struct Colour{
-    int r;
-    int g;
-    int b;
-    int alpha;
-
-} Colour;
-
-
-typedef struct Coordinate {
-    int x;
-    int y;
-
-} Coordinate;
-
-
-typedef struct Rollercoaster {
-    Coordinate top_right;
-    Coordinate top_left;
-    Coordinate bottom_right;
-    Coordinate bottom_left;
-    int visible;
-
-
-} Rollercoaster;
-
-
-int create_window(GameManager *game_manager);
-void handle_events(GameManager *game_manager, Rollercoaster *rc);
-void render(GameManager *game_manager, Rollercoaster *rc, int grid[][SCREEN_WIDTH]);
-void update(GameManager *game_manager, Rollercoaster *rc);
-void draw_circle(int cx, int cy, int r, int grid[][SCREEN_WIDTH], int arc);
-void draw_rollercoaster(Rollercoaster *rc, GameManager *game_manager);
-
+#include "main.h"
 
 
 int main() {
     GameManager game_manager;
     int grid[SCREEN_HEIGHT][SCREEN_WIDTH] = {0}; // initialize an array of 0s for each pixel on the screen;
-
-    // draw a circle
-    draw_circle(200, 200, 100, grid, 0); // 0 means draw an arc
 
     if (create_window(&game_manager) == 1) {
         return 1;
@@ -66,14 +13,7 @@ int main() {
     // now we can say that the game is running
     game_manager.is_running = 0;
 
-    Colour black = {
-        .r = 0,
-        .g = 0,
-        .b = 0,
-        .alpha = 255,
-
-    };
-
+    
     // initialize the rollercoaster
     Rollercoaster rc = {
         .top_left = {10, 10},
@@ -139,146 +79,11 @@ int create_window(GameManager *game_manager) {
 
 }
 
-void handle_events(GameManager *game_manager, Rollercoaster *rc) {
-    SDL_Event event;
-    SDL_PollEvent(&event); // get the current event
-
-    int pressed = 0;
-
-    switch (event.type)
-    {
-    case SDL_QUIT:
-        game_manager->is_running = -1;
-        break;
-    
-    case SDL_MOUSEBUTTONDOWN:
-        pressed = 1;
-        break;
-    
-    default:
-        break;
-    }
-
-
-    if (pressed) {
-        // make the rollercoaster visible
-        rc->visible = 1;
-        
-    }
 
 
 
 
-}
-
-void render(GameManager *game_manager, Rollercoaster *rc, int grid[][SCREEN_WIDTH]) {
-    SDL_SetRenderDrawColor(game_manager->renderer, 0, 0, 0, 255);
-    SDL_RenderClear(game_manager->renderer); // fills the screen with this colour
-
-    /* 
-
-    add things to render here
-    
-    */
-
-    Colour white = {
-        .r = 255,
-        .g = 255,
-        .b = 255,
-        .alpha = 255,
-    };
-
-    SDL_SetRenderDrawColor(game_manager->renderer, white.r, white.g, white.b, white.alpha);
-
-    // draw all the pixels from the grid - for now this is just the circle
-    for(int i = 0; i < SCREEN_HEIGHT; i++) {
-        for(int j = 0; j < SCREEN_WIDTH; j++) {
-            if(grid[i][j] == 1) {
-                SDL_RenderDrawPoint(game_manager->renderer, i, j); // draw a single pixel
-            }
 
 
-        }
-    }
-
-    // draw the rollercoaster
-    draw_rollercoaster(rc, game_manager);
 
 
-    
-
-    SDL_RenderPresent(game_manager->renderer); // update the screen 
-}
-
-void update(GameManager *game_manager, Rollercoaster *rc){
-    if(rc->visible) {
-       // move the rollercoaster
-       rc->bottom_left.x ++;
-       rc->bottom_right.x ++;
-       rc->top_left.x ++;
-       rc->top_right.x ++;
-      
-    }
-    
-
-}
-
-
-void draw_circle(int cx, int cy, int r, int grid[][SCREEN_WIDTH], int arc){
-    /*
-    
-    function that assigns 1s to the circls staring at the center. We are using the midpoint circle algorithm
-    
-    */
-
-    int x = 0;
-    int y = -r;
-
-    while(x < -y) {
-        double y_mid = y + 0.5;
-
-        if(x * x + y_mid * y_mid > r * r) {
-            y++;
-
-        }
-
-        grid[cx - x][cy + y] = 1;
-        grid[cx + y][cy - x] = 1;
-
-        if (arc){
-            grid[cx + x][cy + y] = 1;
-            grid[cx + x][cy - y] = 1;
-            grid[cx - x][cy - y] = 1;
-            grid[cx + y][cy + x] = 1;
-            grid[cx - y][cy + x] = 1;
-            grid[cx - y][cy - x] = 1;
-
-        }
-
-       
-        x++;
-
-    }
-
-}
-
-void draw_rollercoaster(Rollercoaster *rc, GameManager *game_manager) {
-    // fix for the new implementation 
-    for(int i = rc->top_left.y; i < rc->bottom_left.y; i++) {
-        for(int j = rc->top_left.x; j < rc->top_right.x; j++) {
-            SDL_RenderDrawPoint(game_manager->renderer, j, i); // draw a single pixel
-
-
-        }
-    }
-
-
-   
-
-}
-
-void draw_rollercoaster_rotation(Rollercoaster *rc, GameManager *game_manager) {
-
-    // always move all 4 corners
-
-}
