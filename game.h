@@ -1,13 +1,10 @@
-#ifndef MAIN_H
-#define MAIN_H
+#ifndef GAME_H
+#define GAME_H
 
 #include <stdio.h>
 #include <SDL2/SDL.h>
 #include <math.h>
 
-#include "render.h"
-#include "update.h"
-#include "events.h"
 
 #define SCREEN_HEIGHT 600
 #define SCREEN_WIDTH 800
@@ -47,6 +44,8 @@ typedef struct Rollercoaster {
 
 
 } Rollercoaster;
+
+int create_window(GameManager *game_manager);
     
 
 #endif

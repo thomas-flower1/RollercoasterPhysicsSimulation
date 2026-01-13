@@ -1,7 +1,7 @@
 #ifndef UPDATE_H
 #define UPDATE_H
 
-#include "main.h"
+#include "game.h"
 
 void update(GameManager *game_manager, Rollercoaster *rc);
 
