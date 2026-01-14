@@ -23,10 +23,9 @@ void render(GameManager *game_manager, Rollercoaster *rc, int grid[][SCREEN_WIDT
     
     */
 
-    if(rc->visible) {
-        draw_rollercoaster(rc, game_manager);
+    draw_rollercoaster(rc, game_manager);
+  
 
-    }
 
 
 

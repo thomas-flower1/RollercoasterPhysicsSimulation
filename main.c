@@ -3,6 +3,8 @@
 #include "events.h"
 #include "game.h"
 
+int counter = 0;
+
 int main() {
     GameManager game_manager;
     int grid[SCREEN_HEIGHT][SCREEN_WIDTH] = {0}; // initialize an array of 0s for each pixel on the screen;
@@ -18,10 +20,10 @@ int main() {
     
     // initialize the rollercoaster
     Rollercoaster rc = {
-        .top_left = {10, 10},
-        .top_right = {20, 10},
-        .bottom_left = {10, 20},
-        .bottom_right = {20, 20},
+        .top_left = {200, 200},
+        .top_right = {400, 200},
+        .bottom_left = {200, 300},
+        .bottom_right = {400, 300},
         .visible = 1
     };
     
@@ -30,8 +32,9 @@ int main() {
 
     while(game_manager.is_running == 0) {
         handle_events(&game_manager, &rc);
+        update(&game_manager, &rc, &counter);
         render(&game_manager, &rc, grid);
-        update(&game_manager, &rc);
+       
 
 
     }
