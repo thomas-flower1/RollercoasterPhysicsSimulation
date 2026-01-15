@@ -3,32 +3,14 @@
 void update(GameManager *game_manager, Rollercoaster *rc, int *counter){
     if (*counter == 1000) {
 
-        // need to fix this 
-        Coordinate center;
 
-        // get the center of the box
-        center.x = round((rc->top_right.x + rc->top_left.x) / 2 );
-        center.y = round((rc->bottom_left.y + rc->top_left.y) / 2);
+        rotation_around_point(&(rc->top_right), &(rc->center));
+        rotation_around_point(&(rc->top_left), &(rc->center));
 
-        // NEED TO FIX THE CENTER POINT
-
-      
-
-        rotation_around_point(&(rc->top_right), &center);
-        rotation_around_point(&(rc->top_left), &center);
-
-        rotation_around_point(&(rc->bottom_right), &center);
-        rotation_around_point(&(rc->bottom_left), &center);
-
-
-
-
-
-
+        rotation_around_point(&(rc->bottom_right), &(rc->center));
+        rotation_around_point(&(rc->bottom_left), &(rc->center));
 
         *counter = 0;
-
-        
 
     }
 
@@ -39,7 +21,7 @@ void update(GameManager *game_manager, Rollercoaster *rc, int *counter){
 }
 
 void rotation_around_point(Coordinate *point, Coordinate *c) {
-    double theta = 90.0 * 3.14 / 180.0; // the amount we want to move the point around the center
+    double theta = 10.0 * 3.14 / 180.0; // the amount we want to move the point around the center
     point->x -= c->x;
     point->y -= c->y;
 
@@ -54,7 +36,9 @@ void rotation_around_point(Coordinate *point, Coordinate *c) {
     point->x += c->x;
     point->y += c->y;
 
-   
+}
+
+void line_tracking() {
 
 
 }

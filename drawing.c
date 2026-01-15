@@ -1,19 +1,40 @@
 #include "drawing.h"
 
-void draw_rollercoaster(Rollercoaster *rc, GameManager *game_manager)
-{
+void draw_rollercoaster(Rollercoaster *rc, GameManager *game_manager) {
 
-    // add to use bresenhams line alg
-
-    SDL_RenderDrawPoint(game_manager->renderer, rc->top_left.x, rc->top_left.y);
-    SDL_RenderDrawPoint(game_manager->renderer, rc->top_right.x, rc->top_right.y);
-
-    // draw the top line
-    draw_bresenham_line_alg(&(rc->top_left), &(rc->top_right), game_manager);
-    //  draw_bresenham_line_alg(&(rc->top_right), &(rc->bottom_right), game_manager);
+    // draw the top and bottom line
+    // draw_bresenham_line_alg(&(rc->top_left), &(rc->top_right), game_manager);
     // draw_bresenham_line_alg(&(rc->bottom_left), &(rc->bottom_right), game_manager);
+
+    // // draw left and right lines
     // draw_bresenham_line_alg(&(rc->top_left), &(rc->bottom_left), game_manager);
+    // draw_bresenham_line_alg(&(rc->top_right), &(rc->bottom_right), game_manager);
+
+    // SDL_RenderDrawPoint(game_manager->renderer, rc->top_left.x, rc->top_left.y);
+    // SDL_RenderDrawPoint(game_manager->renderer, rc->top_right.x, rc->top_right.y);
+    // SDL_RenderDrawPoint(game_manager->renderer, rc->bottom_left.x, rc->bottom_left.y);
+    // SDL_RenderDrawPoint(game_manager->renderer, rc->bottom_right.x, rc->bottom_right.y);
+
+    
+
+    // test bresenhams for wrong order coords - NEED TO FIX SO THAT ORDER DOESN'T MATTER
+    Coordinate test1 = {
+        .x = 100, 
+        .y = 100
+    };
+
+    Coordinate test2 = {
+        .x = 200,
+        .y = 200
+    };
+
+    draw_bresenham_line_alg(&test1, &test2, game_manager);
+
+
+
+
 }
+
 
 void draw_bresenham_line_alg(Coordinate *coord1, Coordinate *coord2, GameManager *game_manager) {
     // pseudo code taken from wikipedia - note does not draw a vertical linedoes
@@ -98,5 +119,20 @@ int min(int x, int y) {
     }
 
     return y;
+
+}
+
+void draw_square(Coordinate *top_left, int width, int height, GameManager *game_manager) {
+    /*
+    Temporary Function to draw a square
+    
+    */
+
+    for(int x = top_left->x; x < top_left->x + height; x++) {
+        for(int y = top_left->y; y < top_left->y + width; y++) {
+            SDL_RenderDrawPoint(game_manager->renderer, x, y); // could have used a sdl2 rect
+
+        }
+    }
 
 }

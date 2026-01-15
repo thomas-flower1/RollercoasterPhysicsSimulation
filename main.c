@@ -24,6 +24,7 @@ int main() {
         .top_right = {400, 200},
         .bottom_left = {200, 300},
         .bottom_right = {400, 300},
+        .center = {300, 250}, // will make a function to calculate this at some point
         .visible = 1
     };
     

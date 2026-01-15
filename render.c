@@ -23,8 +23,19 @@ void render(GameManager *game_manager, Rollercoaster *rc, int grid[][SCREEN_WIDT
     
     */
 
-    draw_rollercoaster(rc, game_manager);
-  
+    // draw_rollercoaster(rc, game_manager);
+
+    // drawing the square that will follow the grid
+    Coordinate top_left = {
+        .x = 300, 
+        .y = 300
+    };
+
+    const int dimension = 30;
+    draw_square(&top_left, dimension, dimension, game_manager);
+    
+
+    // draw an arc to follow just for now
 
 
 

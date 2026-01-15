@@ -40,6 +40,7 @@ typedef struct Rollercoaster {
     Coordinate top_left;
     Coordinate bottom_right;
     Coordinate bottom_left;
+    Coordinate center;
     int visible;
 
 
