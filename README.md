@@ -10,9 +10,13 @@ Personal project to further develop my skills and familiarity in C.
 - The project uses a basic line following algorithm in combination with rotation about a point and besenham's algorithm to rotate the rollercoaster.
 
 
-## Issues
-- Besenham's Algorithm only works when coordinate 1 < coordinate 2
-
 ### Usage
 
 Compile using "make run"
+
+## Todo
+- add gravity (the ability to 'drop' the rollercoaster at any point)
+- implement the line following alg to be bi-directional and vertical movement
+- implement the rollercoaster line generation
+- combine the line following alg with the rotation alg
+- fix besenham's alg implementation so that order does not matter

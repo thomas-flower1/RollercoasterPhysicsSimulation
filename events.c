@@ -17,7 +17,7 @@ void handle_events(GameManager *game_manager, Rollercoaster *rc) {
         break;
     
     default:
-        break; printf("OKKKKK\n");
+        break; 
     }
 
 
