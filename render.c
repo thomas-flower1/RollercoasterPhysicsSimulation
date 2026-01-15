@@ -3,7 +3,7 @@
 #include "drawing.h"
 
 
-void render(GameManager *game_manager, Rollercoaster *rc, int grid[][SCREEN_WIDTH]) {
+void render(GameManager *game_manager, Rollercoaster *rc, int grid[][SCREEN_WIDTH], Coordinate *top_left, int dimension) {
     SDL_SetRenderDrawColor(game_manager->renderer, 0, 0, 0, 255);
     SDL_RenderClear(game_manager->renderer); // fills the screen with this colour
 
@@ -25,17 +25,15 @@ void render(GameManager *game_manager, Rollercoaster *rc, int grid[][SCREEN_WIDT
 
     // draw_rollercoaster(rc, game_manager);
 
-    // drawing the square that will follow the grid
-    Coordinate top_left = {
-        .x = 300, 
-        .y = 300
-    };
-
-    const int dimension = 30;
-    draw_square(&top_left, dimension, dimension, game_manager);
+    draw_square(top_left, dimension, dimension, game_manager);
     
 
     // draw an arc to follow just for now
+    Coordinate center = {
+        .x = 300,
+        .y = 300
+    };
+    draw_midpoint_circ_alg(&center, 100, grid, 0);
 
 
 

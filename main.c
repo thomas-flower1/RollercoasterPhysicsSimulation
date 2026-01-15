@@ -28,13 +28,21 @@ int main() {
         .visible = 1
     };
     
+    // tmp square to test the line following alg
+    Coordinate top_left = {
+        .x = 295, 
+        .y = 195
+    };
 
+    const int dimension = 11;
 
 
     while(game_manager.is_running == 0) {
         handle_events(&game_manager, &rc);
-        update(&game_manager, &rc, &counter);
-        render(&game_manager, &rc, grid);
+        update(&game_manager, &rc, &counter, &top_left, dimension, grid);
+        render(&game_manager, &rc, grid, &top_left, dimension);
+       
+
        
 
 

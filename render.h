@@ -3,6 +3,7 @@
 
 #include "game.h"
 
-void render(GameManager *game_manager, Rollercoaster *rc, int grid[][SCREEN_WIDTH]);
+void render(GameManager *game_manager, Rollercoaster *rc, int grid[][SCREEN_WIDTH], Coordinate *top_left, int dimension);
+
 
 #endif
